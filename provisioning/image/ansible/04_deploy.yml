@@ -53,24 +53,9 @@
   gather_facts: no
   become: yes
   tags:
-    - prod
-  tasks:
-    - copy: src=../../../bin/ dest=/home/isucon/bin owner=isucon group=isucon mode=755
-    - copy: src=../files/env.sh dest=/home/isucon/env.sh owner=isucon group=isucon mode=755
-    - unarchive:
-        copy=no
-        src=https://isucon6qimage.example.com/isucon6q/webapp.tar.gz
-        dest=/home/isucon/
-        creates=/home/isucon/webapp
-        owner=isucon
-        group=isucon
-
-- hosts: all
-  gather_facts: no
-  become: yes
-  tags:
     - always
   tasks:
+    - copy: src=../files/env.sh dest=/home/isucon/env.sh owner=isucon group=isucon mode=755
     - name: isupam (systemd)
       copy: src=../files/isupam.service dest=/etc/systemd/system/isupam.service owner=root mode=644
     - name: perl isuda (systemd)
@@ -101,9 +86,13 @@
       copy: src=../files/isuda.php.service dest=/etc/systemd/system/isuda.php.service owner=root mode=644
     - name: php isutar (systemd)
       copy: src=../files/isutar.php.service dest=/etc/systemd/system/isutar.php.service owner=root mode=644
-    - name: default application selection (isupam)
-      service: name=isupam state=running enabled=true
-    - name: default application selection (isuda)
-      service: name=isuda.perl state=running enabled=true
-    - name: default application selection (isutar)
-      service: name=isutar.perl state=running enabled=true
+
+
+- hosts: all
+  gather_facts: no
+  become: yes
+  tags:
+    - always
+  tasks:
+    - file: path=/home/isucon/bin state=directory owner=isucon group=isucon
+    - file: path=/home/isucon/webapp state=directory owner=isucon group=isucon
