@@ -85,9 +85,3 @@
       copy: src=../files/isuda.php.service dest=/etc/systemd/system/isuda.php.service owner=root mode=644
     - name: php isutar (systemd)
       copy: src=../files/isutar.php.service dest=/etc/systemd/system/isutar.php.service owner=root mode=644
-    - name: default application selection (isupam)
-      service: name=isupam state=running enabled=true
-    - name: default application selection (isuda)
-      service: name=isuda.perl state=running enabled=true
-    - name: default application selection (isutar)
-      service: name=isutar.perl state=running enabled=true
