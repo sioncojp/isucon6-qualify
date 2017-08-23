@@ -53,22 +53,6 @@
   gather_facts: no
   become: yes
   tags:
-    - prod
-  tasks:
-    - copy: src=../../../bin/ dest=/home/isucon/bin owner=isucon group=isucon mode=755
-    - copy: src=../files/env.sh dest=/home/isucon/env.sh owner=isucon group=isucon mode=755
-    - unarchive:
-        copy=no
-        src=https://isucon6qimage.example.com/isucon6q/webapp.tar.gz
-        dest=/home/isucon/
-        creates=/home/isucon/webapp
-        owner=isucon
-        group=isucon
-
-- hosts: all
-  gather_facts: no
-  become: yes
-  tags:
     - always
   tasks:
     - name: isupam (systemd)
