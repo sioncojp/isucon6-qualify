@@ -55,6 +55,7 @@
   tags:
     - always
   tasks:
+    - copy: src=../files/env.sh dest=/home/isucon/env.sh owner=isucon group=isucon mode=755
     - name: isupam (systemd)
       copy: src=../files/isupam.service dest=/etc/systemd/system/isupam.service owner=root mode=644
     - name: perl isuda (systemd)
@@ -85,3 +86,13 @@
       copy: src=../files/isuda.php.service dest=/etc/systemd/system/isuda.php.service owner=root mode=644
     - name: php isutar (systemd)
       copy: src=../files/isutar.php.service dest=/etc/systemd/system/isutar.php.service owner=root mode=644
+
+
+- hosts: all
+  gather_facts: no
+  become: yes
+  tags:
+    - always
+  tasks:
+    - file: path=/home/isucon/bin state=directory owner=isucon group=isucon
+    - file: path=/home/isucon/webapp state=directory owner=isucon group=isucon
